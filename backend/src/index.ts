@@ -3,7 +3,7 @@ import express from "express"
 const app = express();
 
 app.get("/", async (req, res) => {
-    res.send("Welcome to the backend4!");
+    res.send("Welcome to the backend!");
 })
 
 app.listen(3000, () => {
