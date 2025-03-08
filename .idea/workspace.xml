@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d019514d-1bdb-48f4-9bd5-fb81df7c7069" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.Routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.Routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utils/generateToken.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/generateToken.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +32,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="fixBugs" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -107,7 +111,8 @@
       <workItem from="1741286603012" duration="2299000" />
       <workItem from="1741348273794" duration="3960000" />
       <workItem from="1741353523612" duration="5637000" />
-      <workItem from="1741373163329" duration="7507000" />
+      <workItem from="1741373163329" duration="9679000" />
+      <workItem from="1741431959071" duration="3943000" />
     </task>
     <servers />
   </component>
