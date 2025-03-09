@@ -6,6 +6,10 @@ import messageRoutes from "../routes/message.Routes.js";
 const app = express();
 dotenv.config();
 
+
+//app.use(cors());
+app.use(express.json());
+
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
 

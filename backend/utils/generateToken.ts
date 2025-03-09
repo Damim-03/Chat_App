@@ -12,7 +12,11 @@ const generateToken = (userId:string, res:Response) => {
     res.cookie("jwt", token, {
         maxAge: 15 * 24 * 60 * 60 * 1000, // MS
         httpOnly: true,
+        sameSite: "strict", // CRSF Attack cross-site request forgery
+        secure: process.env.NODE_ENV !== "development", //HTTPS
     })
+
+    return token;
 }
 
 export default generateToken;
