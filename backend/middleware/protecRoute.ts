@@ -18,7 +18,7 @@ const protecRoute = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).json({ error: "Unauthorized: Invalid token" });
         }
 
-        
+
         const user = await prisma.user.findUnique({
             where: { id: decoded.userId },
             select: { id: true, username: true, fullname: true, profilePic: true },
