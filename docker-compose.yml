@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: chatapp_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mysql://root:0660@db:3306/chatapp
+      - JWT_SECRET=your_jwt_secret
+      - NODE_ENV=development
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: always
+
+  db:
+    image: mysql:8
+    container_name: chatapp_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 0660
+      MYSQL_DATABASE: chatapp
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
