@@ -22,7 +22,7 @@ export const createproduct = async (req: Request, res: Response): Promise<void> 
 
     // ✅ Validate unitId
     const unitRecord = unitId
-      ? await prisma.unit.findUnique({ where: { id: Number(unitId) } })
+      ? await prisma.unit.findUnique({ where: { id: unitId } })
       : null;
 
     if (!unitRecord) {
@@ -40,13 +40,12 @@ export const createproduct = async (req: Request, res: Response): Promise<void> 
         price1: parseFloat(price1),
         price2: price2 ? parseFloat(price2) : undefined,
         price3: price3 ? parseFloat(price3) : undefined,
-        unit: unitRecord.unit_name,
         quantity: Number(quantity),
         production_date: production_date ? new Date(production_date) : undefined,
         expiration_date: expiration_date ? new Date(expiration_date) : undefined,
         image_path,
-        Unit: { connect: { id: Number(unitId) } },
-        Category: { connect: { id: Number(categoryId) } },
+        Unit: { connect: { id: unitId } },
+        Category: { connect: { id: categoryId } },
       },
     });
 
@@ -162,8 +161,8 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
         production_date: production_date ? new Date(production_date) : null,
         expiration_date: expiration_date ? new Date(expiration_date) : null,
         image_path,
-        Unit: unitId ? { connect: { id: Number(unitId) } } : undefined,
-        Category: categoryId ? { connect: { id: Number(categoryId) } } : undefined,
+        Unit: unitId ? { connect: { id: unitId } } : undefined,
+        Category: categoryId ? { connect: { id: categoryId } } : undefined,
       },
       include: { Unit: true, Category: true },
     });

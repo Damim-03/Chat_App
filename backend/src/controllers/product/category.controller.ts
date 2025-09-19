@@ -59,7 +59,7 @@ export const getAllCategory = async (req: Request, res: Response): Promise<void>
   }
 };
 
-// Delete category
+// Delete category (UUID version)
 export const deleteCategory = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -71,7 +71,7 @@ export const deleteCategory = async (req: Request, res: Response): Promise<void>
 
     // Check if category exists
     const existingCategory = await prisma.category.findUnique({
-      where: { id: parseInt(id) },
+      where: { id }, // id is a UUID string now
     });
 
     if (!existingCategory) {
@@ -81,19 +81,19 @@ export const deleteCategory = async (req: Request, res: Response): Promise<void>
 
     // Check if category has products
     const productsWithCategory = await prisma.products.findMany({
-      where: { categoryId: parseInt(id) },
+      where: { categoryId: id },
     });
 
     if (productsWithCategory.length > 0) {
-      res.status(400).json({ 
+      res.status(400).json({
         message: "Cannot delete category with existing products",
-        productCount: productsWithCategory.length 
+        productCount: productsWithCategory.length,
       });
       return;
     }
 
     await prisma.category.delete({
-      where: { id: parseInt(id) },
+      where: { id },
     });
 
     res.status(200).json({

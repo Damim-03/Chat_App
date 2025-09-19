@@ -11,7 +11,11 @@ import {
     getAllCategory,
     deleteCategory
 } from "../../controllers/product/category.controller.js";
-import protecRoute from "../../middleware/protecRoute.js";
+import { 
+    createunit, 
+    deleteunit, 
+    getAllunit 
+} from "../../controllers/product/unit.controller.js";
 
 const router = express.Router();
 
@@ -26,5 +30,11 @@ router.delete("/product/delete/:id", deleteproduct)
 router.post('/category/add', createCategory);
 router.get('/category/get', getAllCategory);
 router.delete('/category/delete/:id', deleteCategory);
+
+// Unit Routes
+router.post('/unit/add', createunit);
+router.get('/unit/get', getAllunit);
+router.delete('/unit/delete/:id', deleteunit);
+
 
 export default router;

@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors";
 import productRoutes from "./routes/product/product.Routes.js";
+import salesRoutes from "./routes/sales/sales.Routes.js"
 import cookieParser from "cookie-parser";
 import { PORT } from "./env.js";
 
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 
 app.use("/api/product", productRoutes)
+app.use("/api/sales", salesRoutes);
 
 // Simple health check for connectivity testing
 app.get("/health", (_req, res) => {
