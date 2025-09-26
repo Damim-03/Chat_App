@@ -1,83 +1,73 @@
-# Inventory and Sales Management System
+# React + TypeScript + Vite
 
-A comprehensive inventory and sales management system built with modern technologies including Prisma ORM, TypeScript, and Node.js. This system supports product management, sales processing, purchase tracking, customer management, and debt monitoring.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🌟 Features
+Currently, two official plugins are available:
 
-### Product Management
-- **Barcode Integration**: Track products with unique barcode identifiers
-- **Multi-level Pricing**: Support for different pricing tiers
-- **Expiration Tracking**: Monitor product expiration dates
-- **Categorization**: Organize products by categories and units
-- **Inventory Control**: Real-time stock quantity management
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Sales & Purchase System
-- **Invoice Management**: Generate sales and purchase invoices
-- **Tax & Discount Calculations**: Automated financial computations
-- **Debt Tracking**: Comprehensive accounts receivable management
-- **Multiple Payment Methods**: Support for various payment options
+## React Compiler
 
-### Customer Management
-- **Customer Database**: Centralized customer information storage
-- **Debt Monitoring**: Track customer outstanding balances
-- **Sales History**: Complete record of customer transactions
-- **Credit Management**: Control customer credit limits and terms
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Reporting & Analytics
-- **Daily/Monthly Reports**: Sales performance tracking over time
-- **Accounts Receivable**: Detailed debtors reports
-- **Inventory Movement**: Product transaction history
-- **Financial Analytics**: Revenue and profit analysis
+## Expanding the ESLint configuration
 
-## 🛠️ Technology Stack
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- **Backend Framework**: Node.js with Express
-- **Database ORM**: Prisma
-- **Database**: MySQL
-- **Programming Language**: TypeScript
-- **API**: RESTful architecture
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## 📁 Project Structure
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-```bash
-backend/src/
-├── controllers/ # Application controllers
-│ ├── product/ # Product-related controllers
-│ ├── unit/ # Unit management controllers
-│ └── sales/ # Sales transaction controllers
-├── db/ # Database configuration
-├── interface/ # TypeScript type definitions
-├── middleware/ # Custom middleware functions
-├── prisma/
-│ └── migrations/ # Database migration files
-│ └── schema.prisma # Main database schema
-├── routes/ # API route definitions
-│ ├── product/ # Product-related routes
-│ └── sales/ # Sales-related routes
-└── utils/ # Utility functions and helpers
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## 🚀 Getting Started
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-### Prerequisites
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-- Node.js (v14 or higher)
-- MySQL database
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/Damim-03/Chat_App.git
-cd Chat_App
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-```bash
-npm install
-```
-
-
-The Author : https://github.com/Damim-03
-
-

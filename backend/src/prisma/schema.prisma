@@ -7,218 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category {
-  id               String    @id @default(uuid()) @db.VarChar(36)
-  name_of_category String    @unique
-  created_at       DateTime  @default(now())
-
-  Products products[] @relation("CategoryProducts")
-}
-
-model unit {
-  id         String    @id @default(uuid()) @db.VarChar(36)
-  unit_name  String    @unique
-  created_at DateTime  @default(now())
-  Products products[] @relation("UnitProducts")
-}
-
-model products {
-  id              String    @id @default(uuid()) @db.VarChar(36)
-  barcode         String    @unique @db.VarChar(50)
-  product_name    String
-  description     String?
-  price1          Decimal   @default(0.00) @db.Decimal(10, 2)
-  price2          Decimal   @default(0.00) @db.Decimal(10, 2)
-  price3          Decimal   @default(0.00) @db.Decimal(10, 2)
-  quantity        Int       @default(0)
-  production_date DateTime? @db.Date
-  expiration_date DateTime? @db.Date
-  image_path      String?
-  created_at      DateTime  @default(now())
+model User {
+  id         String        @id @default(uuid())
+  fullName   String
+  username   String        @unique
+  password   String
+  gender     Gender
+  profilePic String?       @default("")
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   // Relations
-  Unit     unit?     @relation("UnitProducts", fields: [unitId], references: [id])
-  unitId   String?   @db.VarChar(36)
-
-  Category category? @relation("CategoryProducts", fields: [categoryId], references: [id])
-  categoryId String? @db.VarChar(36)
-
-  // Related models
-  Statuses        product_status[]
-  PurchaseItems   purchase_items[]
-  SaleItems       sale_items[]
-  ClientSalesItem client_sales_item[]
+  conversations Conversation[] @relation("UserConversations")
+  messagesSent   Message[]      @relation("MessagesSent")
+  messagesReceived Message[]    @relation("MessagesReceived")
 }
 
-model purchases {
-  purchase_id   Int       @id @default(autoincrement())
-  purchase_date DateTime? @db.Date
-  purchase_time DateTime? @db.Time
-  subtotal      Decimal?  @db.Decimal(10, 2)
-  discount      Decimal?  @db.Decimal(10, 2)
-  debt          Decimal?  @db.Decimal(10, 2)
-  total         Decimal?  @db.Decimal(10, 2)
-  customer_name String?
-  customer_id   String?
+model Conversation {
+  id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  Payments purchase_payments[]
-  Items    purchase_items[]
+  // Relations
+  participants User[]   @relation("UserConversations")
+  messages     Message[]
 }
 
-model purchase_payments {
-  payment_id    Int      @id @default(autoincrement())
-  purchase_id   Int
-  total_amount  Float
-  paid_amount   Float
-  change_amount Float
-  payment_date  DateTime @default(now())
+model Message {
+  id             String       @id @default(uuid())
+  message        String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
-  Purchases purchases @relation(fields: [purchase_id], references: [purchase_id], onUpdate: Cascade, onDelete: Cascade)
+  // Relations
+  senderId       String
+  receiverId     String
+  conversationId String?
+
+  sender        User         @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver      User         @relation("MessagesReceived", fields: [receiverId], references: [id])
+  conversation  Conversation? @relation(fields: [conversationId], references: [id])
 }
 
-model purchase_items {
-  item_id      Int      @id @default(autoincrement())
-  purchase_id  Int
-  product_id   String?
-  number       String?
-  product_name String?
-  quantity     Int?
-  price        Decimal? @db.Decimal(10, 2)
-  total_price  Decimal? @db.Decimal(10, 2)
-
-  Purchases purchases @relation(fields: [purchase_id], references: [purchase_id])
-  Product   products? @relation(fields: [product_id], references: [id])
-}
-
-model sales {
-  sale_id       Int       @id @default(autoincrement())
-  sale_date     DateTime? @db.Date
-  sale_time     DateTime? @db.Time
-  subtotal      Decimal?  @db.Decimal(10, 2)
-  discount      Decimal?  @db.Decimal(10, 2)
-  debt          Decimal?  @db.Decimal(10, 2)
-  total         Decimal?  @db.Decimal(10, 2)
-  customer_name String?
-  customer_id   String?
-
-  Items    sale_items[]
-  Payments payments[]
-}
-
-model sale_items {
-  item_id      Int      @id @default(autoincrement())
-  sale_id      Int
-  product_id   String?
-  number       String?
-  product_name String?
-  quantity     Int?
-  price        Decimal? @db.Decimal(10, 2)
-  total_price  Decimal? @db.Decimal(10, 2)
-
-  Sales   sales     @relation(fields: [sale_id], references: [sale_id])
-  Product products? @relation(fields: [product_id], references: [id])
-}
-
-model payments {
-  payment_id    Int      @id @default(autoincrement())
-  sale_id       Int
-  total_amount  Float
-  paid_amount   Float
-  change_amount Float
-  payment_date  DateTime @default(now())
-
-  Sales sales @relation(fields: [sale_id], references: [sale_id], onUpdate: Cascade, onDelete: Cascade)
-}
-
-model product_status {
-  id         Int      @id @default(autoincrement())
-  barcode    String
-  status     Status
-  updated_at DateTime @default(now()) @updatedAt
-
-  Product products @relation(fields: [barcode], references: [barcode], onDelete: Cascade)
-}
-
-enum Status {
-  Expired
-  Valid
-}
-
-model client {
-  customer_id   String   @id @db.VarChar(50)
-  customer_name String
-  phone         String?
-  email         String?
-  address       String?
-  image_path    String?
-  created_at    DateTime @default(now())
-
-  Sales    client_sales[]
-  Debts    client_debts[]
-  Payments client_payments[]
-}
-
-model client_sales {
-  sale_id       Int       @id @default(autoincrement())
-  sale_date     DateTime? @db.Date
-  sale_time     DateTime? @db.Time
-  subtotal      Decimal?  @db.Decimal(10, 2)
-  discount      Decimal?  @db.Decimal(10, 2)
-  debt          Decimal?  @db.Decimal(10, 2)
-  total         Decimal?  @db.Decimal(10, 2)
-  customer_name String?
-  customer_id   String?
-
-  Client client?             @relation(fields: [customer_id], references: [customer_id])
-  Items  client_sales_item[]
-}
-
-model client_sales_item {
-  item_id      Int      @id @default(autoincrement())
-  sale_id      Int
-  product_id   String?
-  number       String?
-  product_name String?
-  quantity     Int?
-  price        Decimal? @db.Decimal(10, 2)
-  total_price  Decimal? @db.Decimal(10, 2)
-
-  ClientSales client_sales @relation(fields: [sale_id], references: [sale_id])
-  Product     products?    @relation(fields: [product_id], references: [id])
-}
-
-model client_debts {
-  debt_id     Int        @id @default(autoincrement())
-  customer_id String
-  amount      Decimal    @db.Decimal(10, 2)
-  debt_date   DateTime   @db.Date
-  status      DebtStatus @default(NOT_PAID)
-  notes       String?
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @default(now()) @updatedAt
-
-  Client client @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade)
-}
-
-enum DebtStatus {
-  NOT_PAID  @map("غير مدفوع")
-  PARTIALLY @map("مدفوع جزئيًا")
-  PAID      @map("مدفوع")
-}
-
-model client_payments {
-  payment_id    Int       @id @default(autoincrement())
-  customer_id   String
-  customer_name String
-  amount_paid   Decimal   @db.Decimal(10, 2)
-  payment_date  DateTime  @db.Date
-  payment_time  DateTime  @db.Time
-  status        PayStatus @default(NOT_PAID)
-
-  Client client @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade)
-}
-
-enum PayStatus {
-  PAID     @map("تم الدفع")
-  NOT_PAID @map("لم يتم الدفع")
+enum Gender {
+  male
+  female
 }

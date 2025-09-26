@@ -1,12 +1,14 @@
-import {JwtPayload} from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 
-export interface DecodedToken  extends JwtPayload{
-    userId: string
+// ✅ Interface for decoded JWT payload
+export interface DecodedToken extends JwtPayload {
+    userId: string;
 }
 
+// ✅ Extend Express Request to include user
 declare global {
     namespace Express {
-        export interface Request {
+        interface Request {
             user?: {
                 id: string;
             };
